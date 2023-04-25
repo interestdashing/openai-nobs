@@ -1,6 +1,6 @@
 {
   "name": "openai-nobs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An openai library for nodejs written in TypeScript without any of the bloat.",
   "scripts": {
     "sample-models": "ts-node samples/Models-sample.ts",
