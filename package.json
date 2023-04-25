@@ -1,5 +1,5 @@
 {
-  "name": "nobs-openai",
+  "name": "openai-nobs",
   "version": "1.0.0",
   "description": "An openai library for nodejs written in TypeScript without any of the bloat.",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/interestdashing/nobs-openai.git"
+    "url": "git+https://github.com/interestdashing/openai-nobs.git"
   },
   "keywords": [
     "openai",
@@ -24,9 +24,9 @@
   "author": "interestdashing@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/interestdashing/nobs-openai/issues"
+    "url": "https://github.com/interestdashing/openai-nobs/issues"
   },
-  "homepage": "https://github.com/interestdashing/nobs-openai#readme",
+  "homepage": "https://github.com/interestdashing/openai-nobs#readme",
   "devDependencies": {
     "ts-node": "^10.9.1"
   }
