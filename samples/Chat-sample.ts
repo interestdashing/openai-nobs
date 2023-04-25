@@ -1,7 +1,5 @@
 import { SAMPLE_API_KEY } from "./Config";
-import { ChatRole, ChatGet } from "../Chat";
-import { Client } from "../Client";
-import { ModelList } from "../Models";
+import { Client, ChatRole, ChatGet, ModelList } from "../index";
 
 /*
  * Chat sample that asks basic questions.

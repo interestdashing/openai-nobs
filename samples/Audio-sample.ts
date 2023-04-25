@@ -1,8 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { SAMPLE_API_KEY } from "./Config";
-import { Client } from "../Client";
-import { AudioTranscription, AudioTranslation } from "../Audio";
+import { Client, AudioTranscription, AudioTranslation } from "../index";
 
 /*
  * Transcribe audio to text sample.
@@ -18,7 +17,6 @@ import { AudioTranscription, AudioTranslation } from "../Audio";
         model: "whisper-1", // only one available?
         language: "en"
     }));
-
 
     console.log(JSON.stringify(result, undefined, 4));
 })().catch((e) => {
@@ -38,7 +36,6 @@ import { AudioTranscription, AudioTranslation } from "../Audio";
         audio_filename: "audio-test.m4a",
         model: "whisper-1", // only one available?
     }));
-
 
     console.log(JSON.stringify(result, undefined, 4));
 })().catch((e) => {

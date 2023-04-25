@@ -1,6 +1,5 @@
 import { SAMPLE_API_KEY } from "./Config";
-import { Client } from "../Client";
-import { ModerationCategory, ModerationsGet } from "../Moderations";
+import { Client, ModerationCategory, ModerationsGet } from "../index";
 
 /*
  * Checks moderation values for input text.

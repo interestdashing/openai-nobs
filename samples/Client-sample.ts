@@ -1,5 +1,5 @@
 import { SAMPLE_API_KEY } from "./Config";
-import { Client } from "../Client";
+import { Client } from "../index";
 
 new Client({
     apiKey: SAMPLE_API_KEY

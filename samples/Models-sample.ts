@@ -1,6 +1,5 @@
 import { SAMPLE_API_KEY } from "./Config";
-import { Client } from "../Client";
-import { ModelGet, ModelList } from "../Models";
+import { Client, ModelGet, ModelList } from "../index";
 
 /*
  * List models sample.

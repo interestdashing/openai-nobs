@@ -2,8 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SAMPLE_API_KEY } from "./Config";
-import { Client } from "../Client";
-import { ImageEdit, ImageGenerate, ImageVariation } from "../Images";
+import { Client, ImageEdit, ImageGenerate, ImageVariation } from "../index";
 
 const writeImage = (filename: string, data: Buffer) => {
     if (!fs.existsSync(path.join(__dirname, "..", "output"))) {

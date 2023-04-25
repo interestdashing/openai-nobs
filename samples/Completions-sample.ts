@@ -1,7 +1,5 @@
 import { SAMPLE_API_KEY } from "./Config";
-import { Client } from "../Client";
-import { CompletionsGet } from "../Completions";
-import { ModelList } from "../Models";
+import { Client, CompletionsGet, ModelList } from "../index";
 
 /*
  * Completion example of asking for a simple text completion.
