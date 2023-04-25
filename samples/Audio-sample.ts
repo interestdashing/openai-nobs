@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { SAMPLE_API_KEY } from "./Config";
 import { Client } from "../Client";
-import { AudioTranscription, AudioTranslation, TranscriptionFormat } from "../Audio";
+import { AudioTranscription, AudioTranslation } from "../Audio";
 
 /*
  * Transcribe audio to text sample.

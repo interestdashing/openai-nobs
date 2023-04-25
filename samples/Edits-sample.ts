@@ -1,7 +1,6 @@
 import { SAMPLE_API_KEY } from "./Config";
-import { ChatRole, ChatGet } from "../Chat";
 import { Client } from "../Client";
-import { ListModels } from "../Models";
+import { ModelList } from "../Models";
 import { EditGet } from "../Edits";
 
 /*
@@ -12,7 +11,7 @@ import { EditGet } from "../Edits";
         apiKey: SAMPLE_API_KEY ?? "{{INSERT_API_KEY}}",
     });
 
-    const modelResult = await client.makeRequest(new ListModels());
+    const modelResult = await client.makeRequest(new ModelList());
     const editModel = modelResult.data.filter((m) => m.id.indexOf("text-davinci-edit") !== -1)[0];
     if (editModel === undefined) {
         throw { error: "Could not find text-davinci-edit based model" };

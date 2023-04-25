@@ -3,6 +3,17 @@
 	"tasks": [
 		{
 			"type": "npm",
+			"script": "dist",
+			"problemMatcher": [],
+			"label": "npm: dist",
+			"detail": "Builds and prepares for publish.",
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		},
+		{
+			"type": "npm",
 			"script": "sample-models",
 			"problemMatcher": [],
 			"label": "npm: sample-models",

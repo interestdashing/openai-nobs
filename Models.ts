@@ -11,7 +11,7 @@ export interface IListModelsData extends IResponseData {
     data: Array<IModelData>;
 }
 
-export class ListModels extends ClientHandler<IListModelsData> {
+export class ModelList extends ClientHandler<IListModelsData> {
     public override getResourceUri(): string {
         return "https://api.openai.com/v1/models";
     }
@@ -29,7 +29,7 @@ export class ListModels extends ClientHandler<IListModelsData> {
     }
 }
 
-export class GetModel extends ClientHandler<IModelData> {
+export class ModelGet extends ClientHandler<IModelData> {
     public modelId: string;
     constructor (modelId: string) {
         super();

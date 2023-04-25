@@ -1,7 +1,7 @@
 import { SAMPLE_API_KEY } from "./Config";
 import { Client } from "../Client";
 import { CompletionsGet } from "../Completions";
-import { ListModels } from "../Models";
+import { ModelList } from "../Models";
 
 /*
  * Completion example of asking for a simple text completion.
@@ -11,7 +11,7 @@ import { ListModels } from "../Models";
         apiKey: SAMPLE_API_KEY ?? "{{INSERT_API_KEY}}",
     });
 
-    const modelResult = await client.makeRequest(new ListModels());
+    const modelResult = await client.makeRequest(new ModelList());
     const curieModel = modelResult.data.filter((m) => m.id.indexOf("text-curie") !== -1)[0];
     if (curieModel === undefined) {
         throw { error: "Could not find text-curie based model" };

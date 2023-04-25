@@ -1,6 +1,6 @@
 import { SAMPLE_API_KEY } from "./Config";
 import { Client } from "../Client";
-import { GetModel, ListModels } from "../Models";
+import { ModelGet, ModelList } from "../Models";
 
 /*
  * List models sample.
@@ -10,7 +10,7 @@ import { GetModel, ListModels } from "../Models";
         apiKey: SAMPLE_API_KEY ?? "{{INSERT_API_KEY}}",
     });
 
-    const result = await client.makeRequest(new ListModels());
+    const result = await client.makeRequest(new ModelList());
 
     for (const model of result.data) {
         console.log(`Model '${model.id}', owner '${model.owned_by}'`);
@@ -27,12 +27,12 @@ import { GetModel, ListModels } from "../Models";
         apiKey: SAMPLE_API_KEY ?? "{{INSERT_API_KEY}}",
     });
 
-    const result = await client.makeRequest(new ListModels());
+    const result = await client.makeRequest(new ModelList());
     if (result.data.length === 0) {
         throw { error: "Could not get list of models" };
     }
 
-    const model = await client.makeRequest(new GetModel(result.data[0].id));
+    const model = await client.makeRequest(new ModelGet(result.data[0].id));
 
     if (model.id !== result.data[0].id) {
         throw { error: "Model mismatch" };
