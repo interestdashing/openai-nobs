@@ -32,7 +32,7 @@ import { Client, AudioTranscription, AudioTranslation } from "../index";
     });
 
     const result = await client.makeRequest(new AudioTranslation({
-        audio: fs.readFileSync(path.join(__dirname, "inputs", "audio-spanish-test.m4a")),
+        audio: fs.readFileSync(path.join(__dirname, "inputs", "audio-spanish.m4a")),
         audio_filename: "audio-test.m4a",
         model: "whisper-1", // only one available?
     }));
