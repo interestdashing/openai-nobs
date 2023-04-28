@@ -1,15 +1,15 @@
 {
   "name": "openai-nobs",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "An openai library for nodejs written in TypeScript without any of the bloat.",
   "scripts": {
+    "sample-audio": "ts-node samples/Audio-sample.ts && ts-node samples/AudioSession-sample.ts",
+    "sample-chat": "ts-node samples/Chat-sample.ts && ts-node samples/ChatSession-sample.ts",
+    "sample-completions": "ts-node samples/Completions-sample.ts && ts-node samples/CompletionsSession-sample.ts",
+    "sample-edits": "ts-node samples/Edits-sample.ts && ts-node samples/EditsSession-sample.ts",
+    "sample-images": "ts-node samples/Images-sample.ts && ts-node samples/ImagesSession-sample.ts",
     "sample-models": "ts-node samples/Models-sample.ts",
-    "sample-completions": "ts-node samples/Completions-sample.ts",
-    "sample-chat": "ts-node samples/Chat-sample.ts",
-    "sample-edits": "ts-node samples/Edits-sample.ts",
-    "sample-images": "ts-node samples/Images-sample.ts",
     "sample-moderations": "ts-node samples/Moderations-sample.ts",
-    "sample-audio": "ts-node samples/Audio-sample.ts",
     "dist": "tsc && ts-node publish/Prepare.ts"
   },
   "repository": {

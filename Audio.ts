@@ -1,13 +1,7 @@
 import * as path from "path";
 import { ClientHandler, IFormEntry, IResponseData } from "./Client";
 
-export enum TranscriptionFormat {
-    "JSON" = "json", 
-    "TEXT" = "text", 
-    "SRT" = "srt",
-    "VERBOSE_JSON" = "verbose_json",
-    "VTT" = "vtt"
-}
+export type TranscriptionFormat = "json" | "text" | "srt" | "verbose_json" | "vtt";
 
 export interface IAudioTranscriptionSegment {
     id: number;
@@ -41,6 +35,10 @@ export interface IAudioUploadRequest {
     prompt?: string;
     response_format?: TranscriptionFormat;
     temperature?: number; // default 0
+}
+
+export interface IAudioTranslationRequest extends IAudioUploadRequest {
+
 }
 
 export interface IAudioTranscriptionRequest extends IAudioUploadRequest {
@@ -78,7 +76,7 @@ export abstract class BaseAudioHandler extends ClientHandler<IAudioTranscription
             value: this.request.model
         }, {
             name: "response_format",
-            value: this.request.response_format ?? TranscriptionFormat.VERBOSE_JSON,
+            value: this.request.response_format ?? "verbose_json",
         }];
 
         if (this.request.prompt !== undefined) {
@@ -108,12 +106,12 @@ export abstract class BaseAudioHandler extends ClientHandler<IAudioTranscription
         const raw = data.toString();
 
         switch (this.request.response_format) {
-            case TranscriptionFormat.TEXT:
-            case TranscriptionFormat.VTT:
-            case TranscriptionFormat.SRT:
+            case "text":
+            case "vtt":
+            case "srt":
                 return { text: raw };
-            case TranscriptionFormat.VERBOSE_JSON:
-            case TranscriptionFormat.JSON:
+            case "verbose_json":
+            case "json":
             case undefined:
                 try {
                     const parsed = JSON.parse(raw);

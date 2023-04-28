@@ -9,15 +9,155 @@ NOTE: This library is meant for server-side usage only within a NodeJS environme
 $ npm install openai-nobs
 ```
 
-## OpenAI API Usage
+## Usage
+It is recommended to use the `AudioSession` / `ChatSession` / `CompletionsSession` / `EditsSession` / `ImagesSession` modules for basic usage of this library. For advanced or raw access to the OpenAI API see the next section.
+
+The session objects are built for ease of use with enhanced functionality built on top of the OpenAI API. Some examples of enhanced functionality include:
+* Automatically finding model IDs for the specific use case if desired
+* Option to automatically Moderate inputs (coming soon)
+* Option to automatically summarize input prompts to fit within token limits (coming soon)
+
+If desired, raw access to the OpenAI API as defined by the developer documentation can be found below the documentation for session modules.
+
+### CompletionsSession
+The CompletionsSession manages request/responses for text completions and can be used in the following way:
+
+```typescript
+import { CompletionsSession } from "openai-nobs";
+const session = new CompletionsSession({
+    apiKey: "--insert api key here--"
+});
+
+// make completions request
+const result = await session.complete({
+    prompt: "Say this is a test",
+    max_tokens: 7,
+    logprobs: 2,
+    n: 2,
+});
+```
+
+### ChatSession
+The ChatSession manages request/responses for chat messages and responses and can be used in the following way:
+
+```typescript
+import { ChatSession } from "openai-nobs";
+const session = new ChatSession({
+    apiKey: SAMPLE_API_KEY ?? "{{INSERT_API_KEY}}",
+});
+
+session.addMessage({ role: "user", content: "I am a dog." });
+session.addMessage({ role: "assistant", content: "What type of dog are you?" });
+session.addMessage({ role: "user", content: "I am a small dog." });
+session.addMessage({ role: "user", content: "What noises do I make?" });
+const responses = await session.getResponses({
+    n: 2
+});
+
+session.addMessage(responses[0].message);
+session.addMessage({ role: "user", content: "What color do you think I am?" });
+const finalResult = await session.getResponses({});
+```
+
+### EditsSession
+The EditsSession manages request/responses for text edits and can be used in the following way:
+
+```typescript
+import { EditsSession } from "openai-nobs";
+const session = new EditsSession({
+    apiKey: SAMPLE_API_KEY ?? "{{INSERT_API_KEY}}",
+});
+
+const result = await session.edit({
+    instruction: "Fix the spelling mistakes and make it sound more profound.",
+    input: "Waht is the poirpose of lyfe?",
+});
+```
+
+### ImagesSession
+The ImagesSession manages image generations and edits and can be used in the following way:
+
+**Generation example:**
+```typescript
+import { ImagesSession } from "openai-nobs";
+const session = new ImagesSession({
+    apiKey: "--insert api key here--"
+});
+
+const result = await session.generate({
+    prompt: "Picture of a cat's paw.",
+    n: 2,
+});
+```
+
+**Edit with mask example:**
+```typescript
+import { ImagesSession } from "openai-nobs";
+const session = new ImagesSession({
+    apiKey: "--insert api key here--"
+});
+
+const image = Buffer.from(""); // TODO: read image via fs, etc
+const mask = Buffer.from(""); // TODO: read mask via fs, etc
+const result = await session.edit({
+    image,
+    mask,
+    prompt: "Make the cats paw have extended translucent claws.",
+    n: 2,
+});
+```
+
+**Variation of image example:**
+```typescript
+import { ImagesSession } from "openai-nobs";
+const session = new ImagesSession({
+    apiKey: "--insert api key here--"
+});
+
+const image = Buffer.from(""); // TODO: read image via fs, etc
+const result = await session.variant({
+    image,
+    n: 2,
+});
+```
+
+### AudioSession
+The AudioSession manages translating and transcribing audio and can be used in the following way:
+
+**Audio transcription example:**
+```typescript
+import { AudioSession } from "openai-nobs";
+const session = new AudioSession({
+    apiKey: "--insert api key here--"
+});
+const audio = Buffer.from(""); // TODO: read audio via fs, etc
+const result = await session.transcribe({
+    audio,
+    audio_filename: "audio.m4a",
+    language: "en"
+});
+```
+
+**Audio translation example:**
+```typescript
+import { AudioSession } from "openai-nobs";
+const session = new AudioSession({
+    apiKey: "--insert api key here--"
+});
+const audio = Buffer.from(""); // TODO: read audio via fs, etc
+const result = await session.translate({
+    audio,
+    audio_filename: "audio.m4a",
+});
+```
+
+## Raw OpenAI API Usage
+**NOTE: It is recommended to use the `AudioSession` / `ChatSession` / `CompletionsSession` / `EditsSession` / `ImagesSession` modules for basic usage of this library. The raw OpenAI access is available as documented below, but enhancements for ease of use and functionality have been built on top via the Session objects.**
+
+
 The raw source, available on Github, can be used directly within your application.
 
 The published NPM package can be used by configuring a `Client` and making requests.  These provide raw access to OpenAI APIs. This includes Models/Completions/Chat/Edits/Images/Audio/Moderations but does not currently support fine tuning or Embeddings. At this time, the ability to stream responses is also not supported.
-
-NOTE: the goals of this project include extending various areas to provide a cleaner, easier, and better way to interact with OpenAI compared to the raw endpoints provided. These may include:
-* Chat specific client that manages the context-aware messages
-* Auto summarization of text to fit within token limit sizes of AI models
-* Prompt/Input generation
 
 The documentation below can be used for reference when using the raw OpenAI API through this module.
 

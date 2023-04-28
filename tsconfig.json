@@ -5,11 +5,18 @@
         "module": "Node16",
         "target": "ES2022",
         "strict": true,
+        "alwaysStrict": true,
         "sourceMap": true,
         "declaration": true,
         "declarationMap": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitOverride": true,
+        "noUnusedLocals": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
         "moduleResolution": "node"
     },
-    "include": ["*.ts"],
+    "include": ["*.ts", "session/*.ts"],
     "exclude": ["publish", "samples"]
 }

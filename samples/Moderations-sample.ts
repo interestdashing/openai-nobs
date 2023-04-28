@@ -14,7 +14,7 @@ import { Client, ModerationCategory, ModerationsGet } from "../index";
     }));
 
     console.log(JSON.stringify(result, undefined, 4));
-    console.log(`Violence measured as ${result.results[0].category_scores[ModerationCategory.VIOLENCE]}` );
+    console.log(`Violence measured as ${result.results[0].category_scores["violence"]}` );
 })().catch((e) => {
     console.error(`Failure getting moderations`, e);
 });

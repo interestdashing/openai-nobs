@@ -1,10 +1,6 @@
 import { ClientHandler, IFormEntry, IResponseData } from "./Client";
 
-export enum ImageSize {
-    "256x256" = "256x256", 
-    "512x512" = "512x512",
-    "1024x1024" = "1024x1024"
-}
+export type ImageSize = "256x256" | "512x512" | "1024x1024";
 
 export interface IImageData extends IResponseData {
     created: number;
@@ -21,12 +17,12 @@ export interface IImageGenerateRequest extends IImageBaseRequest {
     prompt: string;
 }
 
-export interface IImageUploadRequest extends IImageBaseRequest {
+export interface IImageVariationRequest extends IImageBaseRequest {
     image: Buffer,
     image_filename?: string;
 }
 
-export interface IImageEditRequest extends IImageUploadRequest {
+export interface IImageEditRequest extends IImageVariationRequest {
     prompt: string;
     mask?: Buffer;
     mask_filename?: string;
@@ -57,8 +53,8 @@ export abstract class BaseImageHandler extends ClientHandler<IImageData> {
 }
 
 export abstract class BaseImageUploadHandler extends BaseImageHandler {
-    public request: IImageEditRequest | IImageUploadRequest;
-    constructor (request: IImageEditRequest | IImageUploadRequest) {
+    public request: IImageEditRequest | IImageVariationRequest;
+    constructor (request: IImageEditRequest | IImageVariationRequest) {
         super();
         this.request = request;
     }

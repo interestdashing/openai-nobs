@@ -1,8 +1,6 @@
 import { ClientHandler, IResponseData } from "./Client";
 
-export enum CompletionFinishReason {
-    "LENGTH" = "length"
-}
+export type CompletionFinishReason = "length";
 
 export interface ICompletionLogProbs {
     tokens: Array<string>;

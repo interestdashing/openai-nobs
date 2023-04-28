@@ -1,15 +1,7 @@
 import { ClientHandler, IResponseData } from "./Client";
 
-export enum ChatFinishReason {
-    "LENGTH" = "length",
-    "STOP" = "stop"
-}
-
-export enum ChatRole {
-    "SYSTEM" = "system",
-    "USER" = "user",
-    "ASSISTANT" = "assistant"
-}
+export type ChatFinishReason = "length" | "stop";
+export type ChatRole = "system" | "user" | "assistant";
 
 export interface IChatMessage {
     role: ChatRole;

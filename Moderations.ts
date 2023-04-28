@@ -1,14 +1,6 @@
 import { ClientHandler, IResponseData } from "./Client";
 
-export enum ModerationCategory {
-    "HATE" = "hate",
-    "HATE_THREATENING" = "hate/threatening",
-    "SELFHARM" = "self-harm",
-    "SEXUAL" = "sexual",
-    "SEXUAL_MINORS" = "sexual/minors",
-    "VIOLENCE" = "violence",
-    "VIOLENCE_GRAPHIC" = "violence/graphic",
-}
+export type ModerationCategory = "hate" | "hate/threatening" | "self-harm" | "sexual" | "sexual/minors" | "violence" | "violence/graphic";
 
 export interface IModerationResult {
     categories: { [key in ModerationCategory]: boolean };

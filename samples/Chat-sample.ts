@@ -1,5 +1,5 @@
 import { SAMPLE_API_KEY } from "./Config";
-import { Client, ChatRole, ChatGet, ModelList } from "../index";
+import { Client, ChatGet, ModelList } from "../index";
 
 /*
  * Chat sample that asks basic questions.
@@ -18,8 +18,8 @@ import { Client, ChatRole, ChatGet, ModelList } from "../index";
     const result = await client.makeRequest(new ChatGet({
         model: gptModel.id,
         messages: [
-            { role: ChatRole.USER, content: "I am a dog." },
-            { role: ChatRole.USER, content: "What noises do I make?" },
+            { role: "user", content: "I am a dog." },
+            { role: "user", content: "What noises do I make?" },
         ],
         n: 2,
     }));
