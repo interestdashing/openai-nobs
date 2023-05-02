@@ -1,4 +1,5 @@
 import https from "https";
+import { RequestError } from "./errors/RequestError";
 
 export interface IResponseData {}
 
@@ -52,7 +53,7 @@ export class Client {
                 const formData = handler.getFormData === undefined ? undefined : handler.getFormData();
 
                 if (postData !== undefined && formData !== undefined) {
-                    throw { error: "Unexpected mixed form/post data. Use either getPostData or getFormData but not both." };
+                    throw new RequestError("Unexpected mixed form/post data. Use either getPostData or getFormData but not both.");
                 }
                 
                 const headers: { [key: string]: string } = {

@@ -11,13 +11,22 @@ import { GenericSession } from "./GenericSession";
 
 /*
  * The ImagesSession class provides a utility layer on top of the raw OpenAI API for ease of use.
+ * Specific benefits over the raw API include:
+ *  - Automatically finding an available model to use
+ *  - Automatically moderating input via the Moderations endpoint
 */
 export class ImagesSession extends GenericSession {
     public async generate(request: IImageGenerateRequest): Promise<IImageData> {
+        if (this._options.autoModeration) {
+            await this._requireModeration(request.prompt);
+        }
         return this.client.makeRequest(new ImageGenerate(request));
     }
 
     public async edit(request: IImageEditRequest): Promise<IImageData> {
+        if (this._options.autoModeration) {
+            await this._requireModeration(request.prompt);
+        }
         return this.client.makeRequest(new ImageEdit(request));
     }
 

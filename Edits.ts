@@ -1,4 +1,5 @@
 import { ClientHandler, IResponseData } from "./Client";
+import { ResponseError } from "./errors/ResponseError";
 
 export interface IEditUsage {
     prompt_tokens: number;
@@ -46,11 +47,11 @@ export class EditGet extends ClientHandler<IEditData> {
     public override async parseResult(data: Uint8Array): Promise<IEditData> {
         const json = JSON.parse(data.toString());
         if (json.error !== undefined) {
-            throw json.error;
+            throw new ResponseError(JSON.stringify(json.error));
         }
 
         if (json.choices === undefined) {
-            throw { error: `Failed to get edits data` };
+            throw new ResponseError(`Failed to get edits data`);
         }
 
         return json;

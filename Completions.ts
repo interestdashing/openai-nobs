@@ -1,4 +1,5 @@
 import { ClientHandler, IResponseData } from "./Client";
+import { ResponseError } from "./errors/ResponseError";
 
 export type CompletionFinishReason = "length";
 
@@ -68,11 +69,11 @@ export class CompletionsGet extends ClientHandler<ICompletionsData> {
     public override async parseResult(data: Uint8Array): Promise<ICompletionsData> {
         const json = JSON.parse(data.toString());
         if (json.error !== undefined) {
-            throw json.error;
+            throw new ResponseError(JSON.stringify(json.error));
         }
 
         if (json.id === undefined) {
-            throw { error: `Failed to get completions data` };
+            throw new ResponseError(`Failed to get completions data`);
         }
 
         return json;

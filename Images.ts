@@ -1,4 +1,5 @@
 import { ClientHandler, IFormEntry, IResponseData } from "./Client";
+import { ResponseError } from "./errors/ResponseError";
 
 export type ImageSize = "256x256" | "512x512" | "1024x1024";
 
@@ -32,11 +33,11 @@ export abstract class BaseImageHandler extends ClientHandler<IImageData> {
     public override async parseResult(data: Uint8Array): Promise<IImageData> {
         const json = JSON.parse(data.toString());
         if (json.error !== undefined) {
-            throw json.error;
+            throw new ResponseError(JSON.stringify(json.error));
         }
 
         if (json.data === undefined) {
-            throw { error: `Failed to edit image` };
+            throw new ResponseError(`Failed to edit image`);
         }
 
         const result = {

@@ -9,15 +9,36 @@ NOTE: This library is meant for server-side usage only within a NodeJS environme
 $ npm install openai-nobs
 ```
 
+## Features
+Although this library exposes [raw access](#raw-openai-api-usage) to the OpenAI API, it also provides an easier to use interface that handles many common developer scenarios.
+* Automatic model detection
+    * The session objects have built in model detection that allow you to use them without needing to know which models are required to be used.
+    * The sessions can still be provided a specific model, but will by default find a working one for the usage
+* Automatic moderation
+    * Moderation is the developers responsibility and the session libraries make this easy
+    * Use session config option `autoModeration: true` to enable automatic moderation
+    * Rejections with `ModerationError` will be thrown if inputs are flagged
+* Automatic summery (coming soon)
+    * Summarize inputs to fit within token limits of model
+    * More details coming soon...
+
+
 ## Usage
-It is recommended to use the `AudioSession` / `ChatSession` / `CompletionsSession` / `EditsSession` / `ImagesSession` modules for basic usage of this library. For advanced or raw access to the OpenAI API see the next section.
+It is recommended to use the [AudioSession](#audiosession) / [ChatSession](#chatsession) / [CompletionsSession](#completionssession) / [EditsSession](#editssession) / [ImagesSession](#imagessession) modules for basic usage of this library. For advanced or raw access to the OpenAI API see the [next section](#raw-openai-api-usage).
 
-The session objects are built for ease of use with enhanced functionality built on top of the OpenAI API. Some examples of enhanced functionality include:
-* Automatically finding model IDs for the specific use case if desired
-* Option to automatically Moderate inputs (coming soon)
-* Option to automatically summarize input prompts to fit within token limits (coming soon)
+### Sessions
+The session objects are designed to be easier to use objects which contain out of the box features missing from the raw APIs. 
+They all can be created with the following options:
+```typescript
+{
+    apiKey: string;
 
-If desired, raw access to the OpenAI API as defined by the developer documentation can be found below the documentation for session modules.
+    // - default: true
+    // - determines if prompts/inputs will be run through moderation endpoint
+    autoModeration?: boolean;
+}
+```
+
 
 ### CompletionsSession
 The CompletionsSession manages request/responses for text completions and can be used in the following way:
@@ -152,8 +173,7 @@ const result = await session.translate({
 ```
 
 ## Raw OpenAI API Usage
-**NOTE: It is recommended to use the `AudioSession` / `ChatSession` / `CompletionsSession` / `EditsSession` / `ImagesSession` modules for basic usage of this library. The raw OpenAI access is available as documented below, but enhancements for ease of use and functionality have been built on top via the Session objects.**
-
+**NOTE: It is recommended to use the [AudioSession](#audiosession) / [ChatSession](#chatsession) / [CompletionsSession](#completionssession) / [EditsSession](#editssession) / [ImagesSession](#imagessession) modules for basic usage of this library. The raw OpenAI access is available as documented below, but enhancements for ease of use and functionality have been built on top via the Session objects.**
 
 The raw source, available on Github, can be used directly within your application.
 

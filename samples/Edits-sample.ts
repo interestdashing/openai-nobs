@@ -1,5 +1,6 @@
 import { SAMPLE_API_KEY } from "./Config";
 import { Client, ModelList, EditGet } from "../index";
+import { DefaultError } from "../errors/DefaultError";
 
 /*
  * Edits sample to fix spelling mistakes.
@@ -12,7 +13,7 @@ import { Client, ModelList, EditGet } from "../index";
     const modelResult = await client.makeRequest(new ModelList());
     const editModel = modelResult.data.filter((m) => m.id.indexOf("text-davinci-edit") !== -1)[0];
     if (editModel === undefined) {
-        throw { error: "Could not find text-davinci-edit based model" };
+        throw new DefaultError(`Could not find text-davinci-edit based model`);
     }
 
     const result = await client.makeRequest(new EditGet({

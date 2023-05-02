@@ -1,5 +1,6 @@
 import { SAMPLE_API_KEY } from "./Config";
 import { Client, ModelGet, ModelList } from "../index";
+import { DefaultError } from "../errors/DefaultError";
 
 /*
  * List models sample.
@@ -28,15 +29,10 @@ import { Client, ModelGet, ModelList } from "../index";
 
     const result = await client.makeRequest(new ModelList());
     if (result.data.length === 0) {
-        throw { error: "Could not get list of models" };
+        throw new DefaultError(`Could not get list of models`);
     }
 
     const model = await client.makeRequest(new ModelGet(result.data[0].id));
-
-    if (model.id !== result.data[0].id) {
-        throw { error: "Model mismatch" };
-    }
-
     console.log(JSON.stringify(model, undefined, 4));
 })().catch((e) => {
     console.error(`Failure getting model`, e);
