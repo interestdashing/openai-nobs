@@ -1,4 +1,5 @@
 import { ClientHandler, IResponseData } from "./Client";
+import { ResponseError } from "./errors/ResponseError";
 
 export type ChatFinishReason = "length" | "stop";
 export type ChatRole = "system" | "user" | "assistant";
@@ -63,11 +64,11 @@ export class ChatGet extends ClientHandler<IChatData> {
     public override async parseResult(data: Uint8Array): Promise<IChatData> {
         const json = JSON.parse(data.toString());
         if (json.error !== undefined) {
-            throw json.error;
+            throw new ResponseError(JSON.stringify(json.error));
         }
 
         if (json.id === undefined) {
-            throw { error: `Failed to get chat data` };
+            throw new ResponseError(`Failed to get chat data`);
         }
 
         return json;

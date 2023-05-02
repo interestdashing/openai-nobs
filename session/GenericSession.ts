@@ -1,25 +1,42 @@
 import { Client, IClientOptions } from "../Client";
 import { IModelData, ModelList } from "../Models";
+import { ModerationsGet } from "../Moderations";
+import { RequestError } from "../errors/RequestError";
+import { ModerationError } from "../errors/ModerationError";
 
 export interface IGenericSessionOptions extends IClientOptions {
     models?: Array<IModelData>;
+    autoModeration?: boolean;
 }
 
 export class GenericSession {
     public client: Client;
+    protected _options: IGenericSessionOptions;
     protected _models?: Array<IModelData>;
     protected _modelsPromise?: Promise<Array<IModelData>>;
 
     constructor(options: IGenericSessionOptions) {
         this.client = new Client(options);
         this._models = options.models;
+
+        this._options = options;
+        this._options.autoModeration = this._options.autoModeration ?? true;
     }
 
     public getCachedModels(): Array<IModelData> | undefined {
         return this._models;
     }
 
-    public async getModels(): Promise<Array<IModelData>> {
+    protected async _requireModeration(input: string | Array<string>): Promise<void> {
+        const moderations = await this.client.makeRequest(new ModerationsGet({ input }));
+        for (const mod of moderations.results) {
+            if (mod.flagged) {
+                throw new ModerationError(mod);
+            }
+        }
+    }
+
+    protected async _getModels(): Promise<Array<IModelData>> {
         let models = this._models;
         if (models === undefined) {
             if (this._modelsPromise === undefined) {
@@ -31,16 +48,16 @@ export class GenericSession {
         return this._models;
     }
 
-    public async requireModelId(model: string | undefined, idMatches: Array<RegExp | string>): Promise<string> {
+    protected async _requireModelId(model: string | undefined, idMatches: Array<RegExp | string>): Promise<string> {
         if (model === undefined) {
-            const foundModel = await this.requireModel(idMatches);
+            const foundModel = await this._requireModel(idMatches);
             model = foundModel.id;
         }
         return model;
     }
 
-    public async requireModel(idMatches: Array<RegExp | string>): Promise<IModelData> {
-        const models = await this.getModels();
+    protected async _requireModel(idMatches: Array<RegExp | string>): Promise<IModelData> {
+        const models = await this._getModels();
         for (const model of models) {
             for (const idMatch of idMatches) {
                 if (typeof idMatch === "string") {
@@ -52,7 +69,7 @@ export class GenericSession {
                 }
             }
         }
-        throw { error: `Unable to find model using matches '${JSON.stringify(idMatches)}'` };
+        throw new RequestError(`Unable to find model using matches '${JSON.stringify(idMatches)}'`);
     }
 
     private async _getModelList(): Promise<Array<IModelData>> {

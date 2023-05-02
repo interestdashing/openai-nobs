@@ -1,5 +1,6 @@
 import { SAMPLE_API_KEY } from "./Config";
 import { Client, CompletionsGet, ModelList } from "../index";
+import { DefaultError } from "../errors/DefaultError";
 
 /*
  * Completion example of asking for a simple text completion.
@@ -12,7 +13,7 @@ import { Client, CompletionsGet, ModelList } from "../index";
     const modelResult = await client.makeRequest(new ModelList());
     const curieModel = modelResult.data.filter((m) => m.id.indexOf("text-curie") !== -1)[0];
     if (curieModel === undefined) {
-        throw { error: "Could not find text-curie based model" };
+        throw new DefaultError(`Could not find text-curie based model`);
     }
 
     const result = await client.makeRequest(new CompletionsGet({

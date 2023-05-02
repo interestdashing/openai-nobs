@@ -1,4 +1,6 @@
 import * as path from "path";
+import { ResponseError } from "./errors/ResponseError";
+import { UnknownError } from "./errors/UnknownError";
 import { ClientHandler, IFormEntry, IResponseData } from "./Client";
 
 export type TranscriptionFormat = "json" | "text" | "srt" | "verbose_json" | "vtt";
@@ -116,11 +118,11 @@ export abstract class BaseAudioHandler extends ClientHandler<IAudioTranscription
                 try {
                     const parsed = JSON.parse(raw);
                     if (parsed.text === undefined) {
-                        throw { error: `Failed to parse text property from audio response.` }
+                        throw new ResponseError(`Failed to parse text property from audio response.`);
                     }
                     return parsed;
-                } catch (e) {
-                    throw e;
+                } catch (e: unknown) {
+                    throw new UnknownError(e);
                 }
         }
     }

@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SAMPLE_API_KEY } from "./Config";
-import { ImagesSession } from "../index";
+import { ImagesSession, ModerationError } from "../index";
 
 const writeImage = (filename: string, data: Buffer) => {
     if (!fs.existsSync(path.join(__dirname, "..", "output"))) {
@@ -27,6 +27,27 @@ const writeImage = (filename: string, data: Buffer) => {
     });
     for (let i = 0; i < result.data.length; i++) {
         writeImage(`generate-imagesession${i}.png`, result.data[i]);
+    }
+})().catch((e) => {
+    console.error(`Failure with generating image`, e);
+});
+
+/*
+ * Image generation sample with moderation.
+*/ 
+(async () => {
+    const client = new ImagesSession({
+        apiKey: SAMPLE_API_KEY ?? "{{INSERT_API_KEY}}",
+    });
+
+    try {
+        await client.generate({
+            prompt: "Test moderation request. I am going to punch you in the face."
+        });
+    } catch (e) {
+        if (e instanceof ModerationError) {
+            console.log("Expected moderation failure", e);
+        }
     }
 })().catch((e) => {
     console.error(`Failure with generating image`, e);

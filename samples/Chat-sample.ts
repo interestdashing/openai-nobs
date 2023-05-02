@@ -1,4 +1,5 @@
 import { SAMPLE_API_KEY } from "./Config";
+import { DefaultError } from "../errors/DefaultError";
 import { Client, ChatGet, ModelList } from "../index";
 
 /*
@@ -12,7 +13,7 @@ import { Client, ChatGet, ModelList } from "../index";
     const modelResult = await client.makeRequest(new ModelList());
     const gptModel = modelResult.data.filter((m) => m.id.indexOf("gpt-3.5") !== -1)[0];
     if (gptModel === undefined) {
-        throw { error: "Could not find gpt-3.5 based model" };
+        throw new DefaultError(`Could not find gpt-3.5 based model`);
     }
 
     const result = await client.makeRequest(new ChatGet({

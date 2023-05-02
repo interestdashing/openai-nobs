@@ -17,20 +17,31 @@ export interface IAudioSessionTranslationRequest extends Omit<IAudioTranslationR
 
 /*
  * The AudioSession class provides a utility layer on top of the raw OpenAI API for ease of use.
+ * Specific benefits over the raw API include:
+ *  - Automatically finding an available model to use
+ *  - Automatically moderating input via the Moderations endpoint
 */
 export class AudioSession extends GenericSession {
     public static DEFAULT_MODEL_IDS = ["whisper"];
     public async transcribe(request: IAudioSessionTranscriptionRequest): Promise<IAudioTranscriptionData> {
+        if (request.prompt && this._options.autoModeration) {
+            await this._requireModeration(request.prompt);
+        }
+
         return this.client.makeRequest(new AudioTranscription({
             ...request,
-            model: await this.requireModelId(request.model, AudioSession.DEFAULT_MODEL_IDS)
+            model: await this._requireModelId(request.model, AudioSession.DEFAULT_MODEL_IDS)
         }));
     }
 
     public async translate(request: IAudioSessionTranslationRequest): Promise<IAudioTranscriptionData> {
+        if (request.prompt && this._options.autoModeration) {
+            await this._requireModeration(request.prompt);
+        }
+        
         return this.client.makeRequest(new AudioTranslation({
             ...request,
-            model: await this.requireModelId(request.model, AudioSession.DEFAULT_MODEL_IDS)
+            model: await this._requireModelId(request.model, AudioSession.DEFAULT_MODEL_IDS)
         }));
     }
 }

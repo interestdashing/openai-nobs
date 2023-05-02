@@ -1,4 +1,5 @@
 import { ClientHandler, IResponseData } from "./Client";
+import { ResponseError } from "./errors/ResponseError";
 
 export type ModerationCategory = "hate" | "hate/threatening" | "self-harm" | "sexual" | "sexual/minors" | "violence" | "violence/graphic";
 
@@ -36,11 +37,11 @@ export class ModerationsGet extends ClientHandler<IModerationsData> {
     public override async parseResult(data: Uint8Array): Promise<IModerationsData> {
         const json = JSON.parse(data.toString());
         if (json.error !== undefined) {
-            throw json.error;
+            throw new ResponseError(JSON.stringify(json.error));
         }
 
         if (json.id === undefined) {
-            throw { error: `Failed to get moderation data` };
+            throw new ResponseError(`Failed to get moderation data`);
         }
 
         return {

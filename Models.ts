@@ -1,4 +1,5 @@
 import { ClientHandler, IResponseData } from "./Client";
+import { ResponseError } from "./errors/ResponseError";
 
 export interface IModelData {
     id: string;
@@ -18,11 +19,11 @@ export class ModelList extends ClientHandler<IListModelsData> {
     public override async parseResult(data: Uint8Array): Promise<IListModelsData> {
         const json = JSON.parse(data.toString());
         if (json.error !== undefined) {
-            throw json.error;
+            throw new ResponseError(JSON.stringify(json.error));
         }
 
         if (json.data === undefined) {
-            throw { error: "Failed to find model data in response." };
+            throw new ResponseError(`Failed to find model data in response.`);
         }
 
         return json;
@@ -42,11 +43,11 @@ export class ModelGet extends ClientHandler<IModelData> {
     public override async parseResult(data: Uint8Array): Promise<IModelData> {
         const json = JSON.parse(data.toString());
         if (json.error !== undefined) {
-            throw json.error;
+            throw new ResponseError(JSON.stringify(json.error));
         }
 
         if (json.id === undefined || json.owned_by === undefined) {
-            throw { error: `Failed to get model data for id ${this.modelId}` };
+            throw new ResponseError(`Failed to get model data for id ${this.modelId}`);
         }
 
         return json;
