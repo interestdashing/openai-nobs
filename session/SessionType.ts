@@ -1,0 +1,1 @@
+export type SessionType = "audio" | "chat" | "completions" | "edits" | "images";

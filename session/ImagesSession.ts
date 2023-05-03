@@ -18,14 +18,17 @@ import { GenericSession } from "./GenericSession";
 export class ImagesSession extends GenericSession {
     public async generate(request: IImageGenerateRequest): Promise<IImageData> {
         if (this._options.autoModeration) {
-            await this._requireModeration(request.prompt);
+            await this.moderator.checkModerations(request.prompt);
+        }
+        if (this._options.autoSummarize && this.summarizer.needsSummary(request.prompt, "images")) {
+            request.prompt = await this.summarizer.getSummary(request.prompt, "images");
         }
         return this.client.makeRequest(new ImageGenerate(request));
     }
 
     public async edit(request: IImageEditRequest): Promise<IImageData> {
         if (this._options.autoModeration) {
-            await this._requireModeration(request.prompt);
+            await this.moderator.checkModerations(request.prompt);
         }
         return this.client.makeRequest(new ImageEdit(request));
     }

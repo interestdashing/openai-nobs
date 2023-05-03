@@ -12,16 +12,14 @@ export interface ICompletionSessionRequest extends Omit<ICompletionsRequest, "mo
  *  - Automatically moderating input via the Moderations endpoint
 */
 export class CompletionsSession extends GenericSession {
-    public static DEFAULT_MODEL_IDS = ["text-curie"];
-
     public async complete(request: ICompletionSessionRequest): Promise<ICompletionsData> {
         if (request.prompt && this._options.autoModeration) {
-            await this._requireModeration(request.prompt);
+            await this.moderator.checkModerations(request.prompt);
         }
         
         return this.client.makeRequest(new CompletionsGet({
             ...request,
-            model: await this._requireModelId(request.model, CompletionsSession.DEFAULT_MODEL_IDS)
+            model: await this.modelFetcher.requireModelId(request.model, "completions")
         }));
     }
 }

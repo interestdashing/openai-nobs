@@ -16,11 +16,11 @@ Although this library exposes [raw access](#raw-openai-api-usage) to the OpenAI 
     * The sessions can still be provided a specific model, but will by default find a working one for the usage
 * Automatic moderation
     * Moderation is the developers responsibility and the session libraries make this easy
-    * Use session config option `autoModeration: true` to enable automatic moderation
+    * Enabled by default, can be disabled with `autoModeration: false`
     * Rejections with `ModerationError` will be thrown if inputs are flagged
-* Automatic summery (coming soon)
+* Automatic summery
     * Summarize inputs to fit within token limits of model
-    * More details coming soon...
+    * Enabled by default, can be disabled with `autoSummarize: false`
 
 
 ## Usage
@@ -36,6 +36,10 @@ They all can be created with the following options:
     // - default: true
     // - determines if prompts/inputs will be run through moderation endpoint
     autoModeration?: boolean;
+
+    // - default: true
+    // - determines if prompts/inputs will be summarized if too large
+    autoSummarize?: boolean;
 }
 ```
 

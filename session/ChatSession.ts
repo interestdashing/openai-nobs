@@ -22,7 +22,6 @@ export interface IChatSessionResponseRequest extends Omit<IChatRequest, "model" 
  *  - Automatically moderating input via the Moderations endpoint
 */
 export class ChatSession extends GenericSession {
-    public static DEFAULT_MODEL_IDS = ["gpt-4", "gpt-3.5"];
     public messages = new Array<IChatMessage>();
 
     public addMessage(message: IChatMessage): void {
@@ -37,13 +36,13 @@ export class ChatSession extends GenericSession {
     public async getResponses(request: IChatSessionResponseRequest = {}): Promise<IChatData> {
         if (this._options.autoModeration) {
             const msgs = this.messages.map((v) => v.content);
-            await this._requireModeration(msgs);
+            await this.moderator.checkModerations(msgs);
         }
 
         const result = await this.client.makeRequest(new ChatGet({
             ...request,
             messages: this.messages,
-            model: await this._requireModelId(request.model, ChatSession.DEFAULT_MODEL_IDS)
+            model: await this.modelFetcher.requireModelId(request.model, "chat")
         }));
 
         return result;

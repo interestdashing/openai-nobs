@@ -22,26 +22,25 @@ export interface IAudioSessionTranslationRequest extends Omit<IAudioTranslationR
  *  - Automatically moderating input via the Moderations endpoint
 */
 export class AudioSession extends GenericSession {
-    public static DEFAULT_MODEL_IDS = ["whisper"];
     public async transcribe(request: IAudioSessionTranscriptionRequest): Promise<IAudioTranscriptionData> {
         if (request.prompt && this._options.autoModeration) {
-            await this._requireModeration(request.prompt);
+            await this.moderator.checkModerations(request.prompt);
         }
 
         return this.client.makeRequest(new AudioTranscription({
             ...request,
-            model: await this._requireModelId(request.model, AudioSession.DEFAULT_MODEL_IDS)
+            model: await this.modelFetcher.requireModelId(request.model, "audio")
         }));
     }
 
     public async translate(request: IAudioSessionTranslationRequest): Promise<IAudioTranscriptionData> {
         if (request.prompt && this._options.autoModeration) {
-            await this._requireModeration(request.prompt);
+            await this.moderator.checkModerations(request.prompt);
         }
         
         return this.client.makeRequest(new AudioTranslation({
             ...request,
-            model: await this._requireModelId(request.model, AudioSession.DEFAULT_MODEL_IDS)
+            model: await this.modelFetcher.requireModelId(request.model, "audio")
         }));
     }
 }

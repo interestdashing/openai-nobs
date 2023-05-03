@@ -13,81 +13,21 @@
 			}
 		},
 		{
-			"type": "npm",
-			"script": "sample-models",
+			"type": "shell",
+			"command": "npm run samples '${input:match}'",
 			"problemMatcher": [],
-			"label": "npm: sample-models",
-			"detail": "ts-node samples/Models-sample.ts",
-			"group": {
-				"kind": "build",
-				"isDefault": false
-			}
-		},
-		{
-			"type": "npm",
-			"script": "sample-completions",
-			"problemMatcher": [],
-			"label": "npm: sample-completions",
-			"detail": "ts-node samples/Completions-sample.ts",
-			"group": {
-				"kind": "build",
-				"isDefault": false
-			}
-		},
-		{
-			"type": "npm",
-			"script": "sample-chat",
-			"problemMatcher": [],
-			"label": "npm: sample-chat",
-			"detail": "ts-node samples/Chat-sample.ts",
-			"group": {
-				"kind": "build",
-				"isDefault": false
-			}
-		},
-		{
-			"type": "npm",
-			"script": "sample-edits",
-			"problemMatcher": [],
-			"label": "npm: sample-edits",
-			"detail": "ts-node samples/Edits-sample.ts",
-			"group": {
-				"kind": "build",
-				"isDefault": false
-			}
-		},
-		{
-			"type": "npm",
-			"script": "sample-images",
-			"problemMatcher": [],
-			"label": "npm: sample-images",
-			"detail": "ts-node samples/Images-sample.ts",
-			"group": {
-				"kind": "build",
-				"isDefault": false
-			}
-		},
-		{
-			"type": "npm",
-			"script": "sample-moderations",
-			"problemMatcher": [],
-			"label": "npm: sample-moderations",
-			"detail": "ts-node samples/Moderations-sample.ts",
-			"group": {
-				"kind": "build",
-				"isDefault": false
-			}
-		},
-		{
-			"type": "npm",
-			"script": "sample-audio",
-			"problemMatcher": [],
-			"label": "npm: sample-audio",
-			"detail": "ts-node samples/Audio-sample.ts",
+			"label": "npm: samples",
+			"detail": "ts-node samples/RunSamples.ts",
 			"group": {
 				"kind": "build",
 				"isDefault": false
 			}
 		}
-	]
+	],
+	"inputs": [{
+		"id": "match",
+		"type": "promptString",
+		"default": ".*",
+		"description": "(RegExp) sample name matcher"
+	}]
 }
